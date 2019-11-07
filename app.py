@@ -19,7 +19,7 @@ from flask_keroku import heroku
 
 app = Flask(__name__)
 CORS(app)
-app.config[]"SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config[]"SQLALCHEMY_DATABASE_URI"] = 'postgres://zszzroydlztnin:136be58b2fc87e1200f08b667c22e6096b82615e8e610148eaa14d9bff5a1aa9@ec2-107-21-104-31.compute-1.amazonaws.com:5432/d9ee3eptph5vni'
 
 heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -59,32 +59,32 @@ def return_books():
     all_books - deb.session.query(Book.id, Book.title, Book.author).all()
     return jsonify(all_books)
 
-# @app.route('/books/<id>', methods=['GET'])
-# def return_single_book(id):
-#     one_book = db.session.query(Book.id, Book.title, Book.author). filter(book.id == id)first()
-#     return jsonify(one_book)
+@app.route('/books/<id>', methods=['GET'])
+def return_single_book(id):
+    one_book = db.session.query(Book.id, Book.title, Book.author). filter(book.id == id)first()
+    return jsonify(one_book)
 
-# @app.route('/delete/<id>', methods=['DELETE'])
-# def book_delete(id):
-#     if request.content_type == 'application/json':
-#         record = db.session.query(Book).get(id)
-#         db.session.delete(record)
-#         db.session.commit()
-#         return jsonify('completed Delete cation')
-#     return jsonify('Delete failed')
+@app.route('/delete/<id>', methods=['DELETE'])
+def book_delete(id):
+    if request.content_type == 'application/json':
+        record = db.session.query(Book).get(id)
+        db.session.delete(record)
+        db.session.commit()
+        return jsonify('completed Delete cation')
+    return jsonify('Delete failed')
 
-# @app.route('/update_book/<id>', methods=['PUT'])
-# def book_update(id):
-#     if request.content_type == 'application/json':
-#         put_data = request.get_json()
-#         title = put_data.get('title')
-#         author = put_data.get('author')
-#         record = db.session.query(Book).get(id)
-#         record.title = title
-#         record.author = author
-#         db.session.commit()
-#         return jsonify('Completed Update')
-#     return jsonify('Failed Update')
+@app.route('/update_book/<id>', methods=['PUT'])
+def book_update(id):
+    if request.content_type == 'application/json':
+        put_data = request.get_json()
+        title = put_data.get('title')
+        author = put_data.get('author')
+        record = db.session.query(Book).get(id)
+        record.title = title
+        record.author = author
+        db.session.commit()
+        return jsonify('Completed Update')
+    return jsonify('Failed Update')
 
 if __name__ == '__main__':
     app.debug = True
