@@ -12,14 +12,14 @@
 # pipenv install flask-SQLAlchemy
     # help us work with datbases and let us work with shortcuts
 
-from flask import flask, request, jsonify
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_keroku import heroku
+from flask_heroku import Heroku
 
 app = Flask(__name__)
 CORS(app)
-app.config[]"SQLALCHEMY_DATABASE_URI"] = ''
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres://zszzroydlztnin:136be58b2fc87e1200f08b667c22e6096b82615e8e610148eaa14d9bff5a1aa9@ec2-107-21-104-31.compute-1.amazonaws.com:5432/d9ee3eptph5vni'
 
 heroku = Heroku(app)
 db = SQLAlchemy(app)
@@ -61,7 +61,7 @@ def return_books():
 
 @app.route('/books/<id>', methods=['GET'])
 def return_single_book(id):
-    one_book = db.session.query(Book.id, Book.title, Book.author). filter(book.id == id)first()
+    one_book = db.session.query(Book.id, Book.title, Book.author). filter(book.id == id).first()
     return jsonify(one_book)
 
 @app.route('/delete/<id>', methods=['DELETE'])
