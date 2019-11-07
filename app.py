@@ -48,7 +48,7 @@ def books_input():
         post_data = request.get_json()
         title = post_data.get('title')
         author = post_data.get('author')
-        reg = book(title, author)
+        reg = Book(title, author)
         db.session.add(reg)
         db.session.commit()
         return jsonify('Data Posted')
@@ -56,12 +56,12 @@ def books_input():
 
 @app.route('/books', methods=["GET"])
 def return_books():
-    all_books - deb.session.query(Book.id, Book.title, Book.author).all()
+    all_books = db.session.query(Book.id, Book.title, Book.author).all()
     return jsonify(all_books)
 
 @app.route('/books/<id>', methods=['GET'])
 def return_single_book(id):
-    one_book = db.session.query(Book.id, Book.title, Book.author). filter(book.id == id).first()
+    one_book = db.session.query(Book.id, Book.title, Book.author). filter(Book.id == id).first()
     return jsonify(one_book)
 
 @app.route('/delete/<id>', methods=['DELETE'])
@@ -70,7 +70,7 @@ def book_delete(id):
         record = db.session.query(Book).get(id)
         db.session.delete(record)
         db.session.commit()
-        return jsonify('completed Delete cation')
+        return jsonify('completed Delete action')
     return jsonify('Delete failed')
 
 @app.route('/update_book/<id>', methods=['PUT'])
